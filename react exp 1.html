@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ProductCard Component Using Props</title>
+  <!-- React and ReactDOM via CDN -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      min-height: 100vh;
+    }
+    .card {
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      padding: 16px;
+      margin: 12px;
+      width: 220px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .card h2 {
+      font-size: 20px;
+      margin-bottom: 8px;
+    }
+    .in-stock {
+      color: green;
+      font-weight: bold;
+    }
+    .out-stock {
+      color: red;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    // ProductCard component
+    const ProductCard = ({ name, price, inStock }) => (
+      <div className="card">
+        <h2>{name}</h2>
+        <p>Price: <strong>${price}</strong></p>
+        <p className={inStock ? "in-stock" : "out-stock"}>
+          {inStock ? "In Stock" : "Out of Stock"}
+        </p>
+      </div>
+    );
+
+    // App component to render multiple ProductCards
+    const App = () => (
+      <div style={{display:"flex", flexWrap:"wrap", justifyContent:"center"}}>
+        <ProductCard name="Wireless Mouse" price={25.99} inStock={true} />
+        <ProductCard name="Mechanical Keyboard" price={89.5} inStock={false} />
+        <ProductCard name="USB-C Hub" price={45.0} inStock={true} />
+      </div>
+    );
+
+    // Render to root
+    const root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(<App />);
+  </script>
+</body>
+</html>

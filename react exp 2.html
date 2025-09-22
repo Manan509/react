@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Library Management</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    .container {
+      border: 1px solid black;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      max-width: 600px;
+    }
+    .book {
+      border: 1px solid #ddd;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    input {
+      padding: 5px;
+      margin: 5px 5px 5px 0;
+    }
+    button {
+      padding: 5px 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Library Management</h2>
+
+    <!-- Search -->
+    <input type="text" id="searchInput" placeholder="Search by title or author" style="width: 100%;" />
+
+    <!-- Add Book Form -->
+    <div>
+      <input type="text" id="titleInput" placeholder="New book title" />
+      <input type="text" id="authorInput" placeholder="New book author" />
+      <button onclick="addBook()">Add Book</button>
+    </div>
+
+    <!-- Book List -->
+    <div id="bookList"></div>
+  </div>
+
+  <script>
+    let books = [
+      { title: "1984", author: "George Orwell" },
+      { title: "The Great Gatsby", author: "F. Scott Fitzgerald" },
+      { title: "To Kill a Mockingbird", author: "Harper Lee" },
+    ];
+
+    const bookList = document.getElementById("bookList");
+    const searchInput = document.getElementById("searchInput");
+
+    function renderBooks() {
+      bookList.innerHTML = "";
+      const searchValue = searchInput.value.toLowerCase();
+      books
+        .filter(
+          (book) =>
+            book.title.toLowerCase().includes(searchValue) ||
+            book.author.toLowerCase().includes(searchValue)
+        )
+        .forEach((book, index) => {
+          const div = document.createElement("div");
+          div.className = "book";
+          div.innerHTML = `
+            <span><strong>${book.title}</strong> by ${book.author}</span>
+            <button onclick="removeBook(${index})">Remove</button>
+          `;
+          bookList.appendChild(div);
+        });
+    }
+
+    function addBook() {
+      const title = document.getElementById("titleInput").value.trim();
+      const author = document.getElementById("authorInput").value.trim();
+      if (title && author) {
+        books.push({ title, author });
+        document.getElementById("titleInput").value = "";
+        document.getElementById("authorInput").value = "";
+        renderBooks();
+      }
+    }
+
+    function removeBook(index) {
+      books.splice(index, 1);
+      renderBooks();
+    }
+
+    searchInput.addEventListener("input", renderBooks);
+
+    // Initial render
+    renderBooks();
+  </script>
+</body>
+</html>
